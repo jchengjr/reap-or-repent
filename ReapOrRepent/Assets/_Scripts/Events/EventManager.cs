@@ -6,6 +6,7 @@ public class EventManager : MonoBehaviour
     public static EventManager instance { get; private set; }
 
     // Define your events here
+    public DialogueEvents dialogueEvents;
 
     private void Awake()
     {
@@ -16,5 +17,6 @@ public class EventManager : MonoBehaviour
         instance = this;
 
         // initialize all events
+        dialogueEvents = new DialogueEvents();
     }
 }
