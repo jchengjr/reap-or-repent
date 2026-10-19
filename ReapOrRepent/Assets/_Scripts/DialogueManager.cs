@@ -2,15 +2,26 @@ using UnityEngine;
 
 public class DialogueManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private bool dialoguePlaying = false;
+
+    private void OnEnable()
     {
-        
+        EventManager.instance.dialogueEvents.onEnterDialogue += EnterDialogue;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        EventManager.instance.dialogueEvents.onEnterDialogue -= EnterDialogue;
+    }
+
+    private void EnterDialogue(string knotName)
+    {
+        // only ever enter dialogue once.
+        if(dialoguePlaying)
+        {
+            return;
+        }
+
+        dialoguePlaying = true;
     }
 }
