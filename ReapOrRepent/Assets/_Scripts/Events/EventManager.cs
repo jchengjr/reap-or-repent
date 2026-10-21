@@ -7,6 +7,7 @@ public class EventManager : MonoBehaviour
 
     // Define your events here
     public DialogueEvents dialogueEvents;
+    public InputEvents inputEvents;
 
     private void Awake()
     {
@@ -18,5 +19,6 @@ public class EventManager : MonoBehaviour
 
         // initialize all events
         dialogueEvents = new DialogueEvents();
+        inputEvents = new InputEvents();
     }
 }
