@@ -10,18 +10,16 @@ using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.UI;
+using static MenuBuilderUI;
 
-// Generates the main menu scene with placeholder UI wired to MainMenu.
+// Generates the main menu scene with placeholder UI wired to MainMenu, using the settings menu prefab.
 // Run from Tools > Reap or Repent > Build Main Menu Scene, or in batch mode with
-// -executeMethod MainMenuSceneBuilder.BuildFromCommandLine
+// -executeMethod MainMenuSceneBuilder.BuildFromCommandLine [-overwrite]
 public static class MainMenuSceneBuilder
 {
     private const string ScenePath = "Assets/_Scenes/MainMenu.unity";
     private const string GameScenePath = "Assets/_Scenes/NoahWorkScene.unity";
     private const string DefaultUIActionsPath = "Packages/com.unity.inputsystem/InputSystem/Plugins/PlayerInput/DefaultInputActions.inputactions";
-
-    private static readonly Color BackgroundColor = new Color(0.05f, 0.05f, 0.08f);
-    private static readonly Color TextColor = new Color(0.9f, 0.88f, 0.84f);
 
     [MenuItem("Tools/Reap or Repent/Build Main Menu Scene")]
     private static void BuildFromMenu()
@@ -57,9 +55,9 @@ public static class MainMenuSceneBuilder
             return;
         }
 
-        if (File.Exists(ScenePath))
+        if (File.Exists(ScenePath) && !System.Environment.GetCommandLineArgs().Contains("-overwrite"))
         {
-            Debug.LogError(ScenePath + " already exists. Not overwriting it from the command line.");
+            Debug.LogError(ScenePath + " already exists. Pass -overwrite to replace it.");
             EditorApplication.Exit(1);
             return;
         }
@@ -68,18 +66,19 @@ public static class MainMenuSceneBuilder
         EditorApplication.Exit(0);
     }
 
-    private static bool HasTmpResources()
-    {
-        return Resources.Load<TMP_Settings>("TMP Settings") != null;
-    }
-
     private static void Build()
     {
+        var settingsPrefab = AssetDatabase.LoadAssetAtPath<GameObject>(SettingsMenuBuilder.PrefabPath);
+        if (settingsPrefab == null)
+        {
+            settingsPrefab = SettingsMenuBuilder.BuildPrefab();
+        }
+
         var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
 
         CreateCamera();
         var eventSystem = CreateEventSystem();
-        var canvas = CreateCanvas();
+        var canvas = CreateCanvas("Canvas", 0);
 
         var background = CreateRect("Background", canvas);
         Stretch(background);
@@ -101,26 +100,46 @@ public static class MainMenuSceneBuilder
         var settingsButton = CreateButton("SettingsButton", buttonColumn, "Settings");
         var quitButton = CreateButton("QuitButton", buttonColumn, "Quit");
 
-        var settingsPanel = CreateSettingsPanel(canvas, out var backButton);
+        var settingsMenu = CreateSettingsMenu(settingsPrefab, scene);
 
         var mainMenu = new GameObject("MainMenu").AddComponent<MainMenu>();
         UnityEventTools.AddPersistentListener(playButton.onClick, mainMenu.PlayPressed);
         UnityEventTools.AddPersistentListener(settingsButton.onClick, mainMenu.SettingsPressed);
         UnityEventTools.AddPersistentListener(quitButton.onClick, mainMenu.QuitPressed);
-        UnityEventTools.AddPersistentListener(backButton.onClick, mainMenu.CloseSettings);
 
         var serializedMenu = new SerializedObject(mainMenu);
         serializedMenu.FindProperty("gameSceneName").stringValue = Path.GetFileNameWithoutExtension(GameScenePath);
-        serializedMenu.FindProperty("settingsPanel").objectReferenceValue = settingsPanel;
+        serializedMenu.FindProperty("settingsMenu").objectReferenceValue = settingsMenu;
         serializedMenu.ApplyModifiedPropertiesWithoutUndo();
 
         // Lets keyboard and gamepad navigation start on Play.
         eventSystem.firstSelectedGameObject = playButton.gameObject;
-        settingsPanel.SetActive(false);
 
         EditorSceneManager.SaveScene(scene, ScenePath);
         AddToBuildScenes();
         Debug.Log("Built " + ScenePath);
+    }
+
+    // In the main menu the settings menu doesn't pause, its Resume button reads "Back",
+    // and Quit Game is hidden because the menu has its own Quit.
+    private static SettingsMenu CreateSettingsMenu(GameObject prefab, UnityEngine.SceneManagement.Scene scene)
+    {
+        var instance = (GameObject)PrefabUtility.InstantiatePrefab(prefab, scene);
+        var settingsMenu = instance.GetComponent<SettingsMenu>();
+
+        var serializedSettings = new SerializedObject(settingsMenu);
+        serializedSettings.FindProperty("isPauseMenu").boolValue = false;
+        serializedSettings.ApplyModifiedPropertiesWithoutUndo();
+
+        var resumeLabel = instance.transform.Find("Panel/ResumeButton/Text (TMP)").GetComponent<TextMeshProUGUI>();
+        resumeLabel.text = "Back";
+        PrefabUtility.RecordPrefabInstancePropertyModifications(resumeLabel);
+
+        var quitButton = instance.transform.Find("Panel/QuitButton").gameObject;
+        quitButton.SetActive(false);
+        PrefabUtility.RecordPrefabInstancePropertyModifications(quitButton);
+
+        return settingsMenu;
     }
 
     private static void CreateCamera()
@@ -163,111 +182,6 @@ public static class MainMenuSceneBuilder
         module.cancel = Find("Cancel");
         module.trackedDevicePosition = Find("TrackedDevicePosition");
         module.trackedDeviceOrientation = Find("TrackedDeviceOrientation");
-    }
-
-    private static RectTransform CreateCanvas()
-    {
-        var canvasObject = new GameObject("Canvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
-        canvasObject.layer = LayerMask.NameToLayer("UI");
-        canvasObject.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
-
-        var scaler = canvasObject.GetComponent<CanvasScaler>();
-        scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-        scaler.referenceResolution = new Vector2(1920, 1080);
-        scaler.matchWidthOrHeight = 0.5f;
-
-        return canvasObject.GetComponent<RectTransform>();
-    }
-
-    private static GameObject CreateSettingsPanel(Transform parent, out Button backButton)
-    {
-        var panel = CreateRect("SettingsPanel", parent);
-        Stretch(panel);
-        // Opaque enough to block clicks on the menu behind it.
-        panel.gameObject.AddComponent<Image>().color = new Color(0f, 0f, 0f, 0.85f);
-
-        var title = CreateText("Title", panel, "Settings", 72, TextAlignmentOptions.Center);
-        AnchorCenter(title.rectTransform, new Vector2(0, 300), new Vector2(800, 120));
-
-        var placeholder = CreateText("Placeholder", panel, "Settings options go here.", 32, TextAlignmentOptions.Center);
-        AnchorCenter(placeholder.rectTransform, Vector2.zero, new Vector2(1000, 80));
-
-        backButton = CreateButton("BackButton", panel, "Back");
-        AnchorCenter((RectTransform)backButton.transform, new Vector2(0, -300), new Vector2(360, 80));
-
-        return panel.gameObject;
-    }
-
-    private static Button CreateButton(string name, Transform parent, string label)
-    {
-        var rect = CreateRect(name, parent);
-
-        var image = rect.gameObject.AddComponent<Image>();
-        image.sprite = AssetDatabase.GetBuiltinExtraResource<Sprite>("UI/Skin/UISprite.psd");
-        image.type = Image.Type.Sliced;
-
-        var button = rect.gameObject.AddComponent<Button>();
-        button.targetGraphic = image;
-        var colors = button.colors;
-        colors.normalColor = new Color(0.16f, 0.16f, 0.2f);
-        colors.highlightedColor = new Color(0.3f, 0.28f, 0.34f);
-        colors.selectedColor = colors.highlightedColor;
-        colors.pressedColor = new Color(0.1f, 0.1f, 0.12f);
-        button.colors = colors;
-
-        rect.gameObject.AddComponent<LayoutElement>().preferredHeight = 80;
-
-        var text = CreateText("Text (TMP)", rect, label, 40, TextAlignmentOptions.Center);
-        Stretch(text.rectTransform);
-
-        return button;
-    }
-
-    private static TextMeshProUGUI CreateText(string name, Transform parent, string content, float fontSize, TextAlignmentOptions alignment)
-    {
-        var text = CreateRect(name, parent).gameObject.AddComponent<TextMeshProUGUI>();
-        text.text = content;
-        text.fontSize = fontSize;
-        text.alignment = alignment;
-        text.color = TextColor;
-        text.raycastTarget = false;
-        return text;
-    }
-
-    private static RectTransform CreateRect(string name, Transform parent)
-    {
-        var rectObject = new GameObject(name, typeof(RectTransform));
-        rectObject.layer = LayerMask.NameToLayer("UI");
-
-        var rect = rectObject.GetComponent<RectTransform>();
-        rect.SetParent(parent, false);
-        return rect;
-    }
-
-    private static void Stretch(RectTransform rect)
-    {
-        rect.anchorMin = Vector2.zero;
-        rect.anchorMax = Vector2.one;
-        rect.offsetMin = Vector2.zero;
-        rect.offsetMax = Vector2.zero;
-    }
-
-    private static void AnchorTopLeft(RectTransform rect, Vector2 position, Vector2 size)
-    {
-        rect.anchorMin = new Vector2(0, 1);
-        rect.anchorMax = new Vector2(0, 1);
-        rect.pivot = new Vector2(0, 1);
-        rect.anchoredPosition = position;
-        rect.sizeDelta = size;
-    }
-
-    private static void AnchorCenter(RectTransform rect, Vector2 position, Vector2 size)
-    {
-        rect.anchorMin = new Vector2(0.5f, 0.5f);
-        rect.anchorMax = new Vector2(0.5f, 0.5f);
-        rect.pivot = new Vector2(0.5f, 0.5f);
-        rect.anchoredPosition = position;
-        rect.sizeDelta = size;
     }
 
     private static void AddToBuildScenes()

@@ -7,17 +7,9 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     private string gameSceneName = "NoahWorkScene";
 
-    // Shared settings panel (also used by the in-game Esc menu).
+    // Shared settings menu (the same prefab is the in-game pause menu).
     [SerializeField]
-    private GameObject settingsPanel;
-
-    private void Start()
-    {
-        if (settingsPanel != null)
-        {
-            settingsPanel.SetActive(false);
-        }
-    }
+    private SettingsMenu settingsMenu;
 
     public void PlayPressed()
     {
@@ -32,17 +24,9 @@ public class MainMenu : MonoBehaviour
 
     public void SettingsPressed()
     {
-        if (settingsPanel != null)
+        if (settingsMenu != null)
         {
-            settingsPanel.SetActive(true);
-        }
-    }
-
-    public void CloseSettings()
-    {
-        if (settingsPanel != null)
-        {
-            settingsPanel.SetActive(false);
+            settingsMenu.Open();
         }
     }
 
