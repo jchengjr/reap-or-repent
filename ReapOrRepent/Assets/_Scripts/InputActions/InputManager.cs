@@ -12,7 +12,8 @@ public class InputManager : MonoBehaviour
 {
     public void SubmitPressed(InputAction.CallbackContext context)
     {
-        if (context.started)
+        // Ignored while the pause menu is open, so Space or clicks on the menu don't advance dialogue.
+        if (context.started && !SettingsMenu.IsPaused)
         {
             EventManager.instance.inputEvents.SubmitPressed();
         }
