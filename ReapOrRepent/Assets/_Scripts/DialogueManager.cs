@@ -8,6 +8,8 @@ public class DialogueManager : MonoBehaviour
 
     private Story story;
 
+    private int currentChoiceIndex = -1;
+
     private bool dialoguePlaying = false;
 
     private void Awake()
@@ -19,23 +21,24 @@ public class DialogueManager : MonoBehaviour
     {
         EventManager.instance.dialogueEvents.onEnterDialogue += EnterDialogue;
         EventManager.instance.inputEvents.onSubmitPressed += SubmitPressed;
+        EventManager.instance.dialogueEvents.onUpdateChoiceIndex += UpdateChoiceIndex;
     }
 
     private void OnDisable()
     {
         EventManager.instance.dialogueEvents.onEnterDialogue -= EnterDialogue;
         EventManager.instance.inputEvents.onSubmitPressed -= SubmitPressed;
+        EventManager.instance.dialogueEvents.onUpdateChoiceIndex -= UpdateChoiceIndex;
     }
 
-    private void Start()
+    private void UpdateChoiceIndex(int choiceIndex)
     {
-        // just for testing
-        EnterDialogue("startMN1");
+        this.currentChoiceIndex = choiceIndex;
     }
 
-    public void SubmitPressed()
+    public void SubmitPressed(InputEventContext context)
     {
-        if(!dialoguePlaying)
+        if (!context.Equals(InputEventContext.DIALOGUE))
         {
             return;
         }
@@ -53,7 +56,11 @@ public class DialogueManager : MonoBehaviour
 
         dialoguePlaying = true;
 
-        if(!knotName.Equals(""))
+        EventManager.instance.dialogueEvents.DialogueStarted();
+
+        EventManager.instance.inputEvents.ChangeInputEventContext(InputEventContext.DIALOGUE);
+
+        if (!knotName.Equals(""))
         {
             story.ChoosePathString(knotName);
         }
@@ -67,24 +74,33 @@ public class DialogueManager : MonoBehaviour
 
     private void ContinueOrExitStory()
     {
-        if(story.canContinue)
+        // make a choice, if applicable
+        if (story.currentChoices.Count > 0 && currentChoiceIndex != -1)
+        {
+            story.ChooseChoiceIndex(currentChoiceIndex);
+            // reset choice index for next time
+            currentChoiceIndex = -1;
+        }
+
+        if (story.canContinue)
         {
             string dialogueLine = story.Continue();
 
-            // for testing
-            Debug.Log(dialogueLine);
+            EventManager.instance.dialogueEvents.DisplayDialogue(dialogueLine, story.currentChoices);
         }
-        else
+        else if (story.currentChoices.Count == 0)
         {
             ExitDialogue();
         }
     }
 
     private void ExitDialogue()
-    {
-        Debug.Log("DialogueManager: Exiting dialogue.");
-        
+    {        
         dialoguePlaying = false;
+
+        EventManager.instance.dialogueEvents.DialogueFinished();
+
+        EventManager.instance.inputEvents.ChangeInputEventContext(InputEventContext.DEFAULT);
 
         story.ResetState();
     }
