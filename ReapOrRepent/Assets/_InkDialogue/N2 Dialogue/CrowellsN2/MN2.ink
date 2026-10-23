@@ -59,10 +59,14 @@ Did you um…need something?
         -> Stains
     +[Who is the child?]
         -> Child
+    +[Why did you turn the TV off?]
+        -> TV
     +[I noticed medication.]
         -> Meds
     +[There's blood in your sink.]
         -> Sink
+    +[You have an overdue book.]
+        -> Book
     +[Are you certain I cannot investigate more?]
         -> Investigate
     +[I'll see you tomorrow.]
@@ -183,30 +187,118 @@ Yeah…the best…
 
 -> MN2Choices
 
+=== TV ===
+
+S-sorry I just uh, don’t want to waste any more electricity.
+
+With me being unemployed and all, we’re trying to save as much money as we can.
+
+I hope you understand.
+
+    +[What was the news talking about?]
+        -> News
+    +[Leave]
+        -> END
+
+=== News ===
+
+Hm? I uh, honestly have no idea.
+
+By the time Hank gets home he’s too tired to tell me about all his work stories, and I barely watch much TV anyways so…
+
+I guess I’m a little out of the loop.
+
+-> MN2Choices
+
 === Meds ===
-“You-you dug through our bathroom cabinets?”
-Th-that is a blatant breach of privacy!”
-“I…I know that, I just thought you’d, I don’t know, have some basic decency or something!”
-—
-“What?? That doesn’t mean…just because you…”
-“Look, I know investigating is your job, I just assumed you’d tell me when looking into more…private areas.”
-“Either way, the medications I take are none of your business.”
+You-you dug through our bathroom cabinets?
+
+Th-that is a blatant <b>breach of privacy!</b>
+
+    +[It's my job.]
+        -> Job
+    +[You knew this would happen.]
+        -> Happen
+        
+=== Job ===
+
+I…I know that, I just thought you’d, I don’t know, have some basic decency or something!
+
+-> Private
+=== Happen ===
+
+What?? That doesn’t mean…just because you…
+
+-> Private
+
+=== Private ===
+
+Look, I know investigating is your job, I just assumed you’d tell me when looking into more…<b>private</b> areas.
+
+Either way, the <b>medications</b> I take are none of your business.
 
 -> MN2Choices
 
 === Sink ===
-blood
+
+W-what? There’s blood in our sink??
+
+I have <b>no idea</b> where that could’ve came from I…
+
+Maybe it’s from <b>Hank</b> after washing up after a shift? Or something?
+
+I can um, ask him once he comes back and let you know about it <b>tomorrow?</b> If that’s ok?
 
 -> MN2Choices
+
+=== Book ===
+
+“Hm? Oh, you must be talking about that yoga book.
+
+“Yeah I just…haven’t really felt like leaving the house, and whenever I do, I forget to bring it.
+
+“That thing’s been collecting dust for ages. Hopefully they give me some grace…
+
+    +[Why yoga?]
+        -> Yoga
+    +[Leave]
+        -> END
+
+=== Yoga ===
+
+I used to be a yoga instructor actually. Was pretty therapeutic.
+
+Might…get back into that soon. Hopefully.
+
+-> MN2Choices
+
 === Investigate ===
 
-ooo i saw 1 of every place why cant i go up bro
+Well like I said, it’s awfully <b>filthy.</b>
+
+I already feel bad with the current state of…well everything in this house.
+
+I know how um…thorough you can be with your work, I just didn’t want to leave a bad first impression is all.
+
+I’ll clean up more with Hank <b>tomorrow,</b> and uh, hopefully things should be more ready for your arrival.
 
 -> MN2Choices
 
 === EndNight ===
 
-i got above dialogue and i wanna leave now
+Leaving so soon? Uh, alright!
+
+I hope that we’ve made a good first impression.
+
+We’ll um, see you <b>tomorrow</b> night?
+
+    +[That you will]
+        -> Will
+        
+=== Will ===
+
+...great. See you then.
+
 
 -> END //this should trigger end of game
 
