@@ -11,6 +11,10 @@ public class MainMenu : MonoBehaviour
     [SerializeField]
     private SettingsMenu settingsMenu;
 
+    // Plays before the game scene loads. Without it, Play loads the game straight away.
+    [SerializeField]
+    private IntroSequence intro;
+
     public void PlayPressed()
     {
         if (!Application.CanStreamedLevelBeLoaded(gameSceneName))
@@ -19,7 +23,14 @@ public class MainMenu : MonoBehaviour
             return;
         }
 
-        SceneManager.LoadScene(gameSceneName);
+        if (intro != null)
+        {
+            intro.Play(StartGame);
+        }
+        else
+        {
+            StartGame();
+        }
     }
 
     public void SettingsPressed()
@@ -37,5 +48,10 @@ public class MainMenu : MonoBehaviour
 #else
         Application.Quit();
 #endif
+    }
+
+    private void StartGame()
+    {
+        SceneManager.LoadScene(gameSceneName);
     }
 }

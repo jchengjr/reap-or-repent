@@ -40,6 +40,9 @@ public class SettingsMenu : MonoBehaviour
     private Selectable firstSelected;
 
     [SerializeField]
+    private InstructionsPage instructionsPage;
+
+    [SerializeField]
     private InputAction toggleAction = new InputAction("Toggle Settings", InputActionType.Button, "<Keyboard>/escape");
 
     private bool isOpen;
@@ -120,6 +123,11 @@ public class SettingsMenu : MonoBehaviour
         }
 
         isOpen = false;
+        if (instructionsPage != null)
+        {
+            instructionsPage.Close();
+        }
+
         panel.SetActive(false);
         PlayerPrefs.Save();
 
@@ -146,6 +154,14 @@ public class SettingsMenu : MonoBehaviour
         SetVolume(SfxVolumeParameter, volume);
     }
 
+    public void HowToPlayPressed()
+    {
+        if (instructionsPage != null)
+        {
+            instructionsPage.Open("Back");
+        }
+    }
+
     public void QuitPressed()
     {
 #if UNITY_EDITOR
@@ -157,7 +173,11 @@ public class SettingsMenu : MonoBehaviour
 
     private void OnTogglePerformed(InputAction.CallbackContext context)
     {
-        if (isOpen)
+        if (isOpen && instructionsPage != null && instructionsPage.IsOpen)
+        {
+            instructionsPage.Close();
+        }
+        else if (isOpen)
         {
             Close();
         }
