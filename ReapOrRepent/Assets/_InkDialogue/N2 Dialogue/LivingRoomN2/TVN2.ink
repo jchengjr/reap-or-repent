@@ -17,7 +17,7 @@ The screen flickers before fully turning on. Seems the last channel it was on wa
 
 The TV suddenly shuts off, and you look up to see Mildred with the remote.
 
-She puts a finger to her lips, <b>shushing</b> you as she points upstairs.
+She looks at you nervously as she sets the it down on the coffee table.
 
 
 -> END
