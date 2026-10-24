@@ -298,7 +298,7 @@ Transform:
   m_GameObject: {fileID: 686187722}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6, y: -1.6, z: 0}
+  m_LocalPosition: {x: -2.05, y: -1.6, z: 0}
   m_LocalScale: {x: 0.36, y: 0.36, z: 0.36}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -444,7 +444,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 107bffb2442d51f48b3cfa823911d926, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 94558ddc7a564ee4e9bed3012de99a7f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -708,6 +708,10 @@ PrefabInstance:
     - target: {fileID: 3674317239317120065, guid: decfc1d79b4f66f4b8702abb7dc87e18, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6189967235712147831, guid: decfc1d79b4f66f4b8702abb7dc87e18, type: 3}
+      propertyPath: nextSceneName
+      value: Night2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

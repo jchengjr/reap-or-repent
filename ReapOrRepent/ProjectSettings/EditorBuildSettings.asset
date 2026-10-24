@@ -17,6 +17,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/LivingRoom.unity
     guid: ffa36e1b62ec2d1489b98fe479a9433f
+  - enabled: 1
+    path: Assets/_Scenes/Night2.unity
+    guid: 4ba1d5a7927255e4fa3e84c63599da37
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

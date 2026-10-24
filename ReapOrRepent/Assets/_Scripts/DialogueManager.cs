@@ -1,5 +1,6 @@
 using Ink.Runtime;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -11,6 +12,9 @@ public class DialogueManager : MonoBehaviour
     private int currentChoiceIndex = -1;
 
     private bool dialoguePlaying = false;
+
+    [Header("NextScene ")]
+    [SerializeField] private string nextSceneName;
 
     private void Awake()
     {
@@ -95,12 +99,17 @@ public class DialogueManager : MonoBehaviour
     }
 
     private void ExitDialogue()
-    {        
+    {
         dialoguePlaying = false;
 
         EventManager.instance.dialogueEvents.DialogueFinished();
 
         EventManager.instance.inputEvents.ChangeInputEventContext(InputEventContext.DEFAULT);
+
+        if (!nextSceneName.Equals(""))
+        {
+            SceneManager.LoadScene(nextSceneName);
+        }
 
         story.ResetState();
     }

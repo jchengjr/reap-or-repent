@@ -1022,6 +1022,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8730864935321537802, guid: 7c65c207b37ffbb408736fe5a9a72462, type: 3}
   m_PrefabInstance: {fileID: 827411734}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &827411736 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5903578184384080183, guid: 7c65c207b37ffbb408736fe5a9a72462, type: 3}
+  m_PrefabInstance: {fileID: 827411734}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f6182d8b25c79345bab5c4cd90a61bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueChoiceButton
 --- !u!1001 &841606452
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1136,6 +1147,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8730864935321537802, guid: 7c65c207b37ffbb408736fe5a9a72462, type: 3}
   m_PrefabInstance: {fileID: 841606452}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &841606454 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5903578184384080183, guid: 7c65c207b37ffbb408736fe5a9a72462, type: 3}
+  m_PrefabInstance: {fileID: 841606452}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f6182d8b25c79345bab5c4cd90a61bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueChoiceButton
 --- !u!1 &849092729
 GameObject:
   m_ObjectHideFlags: 0
@@ -1392,6 +1414,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 508f5f2fcbf114ab8b96fd3cffe1970a, type: 3}
+--- !u!114 &1018678658 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5903578184384080183, guid: 7c65c207b37ffbb408736fe5a9a72462, type: 3}
+  m_PrefabInstance: {fileID: 22467266}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f6182d8b25c79345bab5c4cd90a61bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueChoiceButton
 --- !u!1 &1065826315
 GameObject:
   m_ObjectHideFlags: 0
@@ -1909,6 +1942,38 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4990707178216407840, guid: 608ec879fbe99ec4fb8c6e5bc9e0ccb1, type: 3}
+      propertyPath: choiceButtons.Array.size
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 4990707178216407840, guid: 608ec879fbe99ec4fb8c6e5bc9e0ccb1, type: 3}
+      propertyPath: 'choiceButtons.Array.data[4]'
+      value: 
+      objectReference: {fileID: 1885785823}
+    - target: {fileID: 4990707178216407840, guid: 608ec879fbe99ec4fb8c6e5bc9e0ccb1, type: 3}
+      propertyPath: 'choiceButtons.Array.data[5]'
+      value: 
+      objectReference: {fileID: 1767005569}
+    - target: {fileID: 4990707178216407840, guid: 608ec879fbe99ec4fb8c6e5bc9e0ccb1, type: 3}
+      propertyPath: 'choiceButtons.Array.data[6]'
+      value: 
+      objectReference: {fileID: 1747969987}
+    - target: {fileID: 4990707178216407840, guid: 608ec879fbe99ec4fb8c6e5bc9e0ccb1, type: 3}
+      propertyPath: 'choiceButtons.Array.data[7]'
+      value: 
+      objectReference: {fileID: 827411736}
+    - target: {fileID: 4990707178216407840, guid: 608ec879fbe99ec4fb8c6e5bc9e0ccb1, type: 3}
+      propertyPath: 'choiceButtons.Array.data[8]'
+      value: 
+      objectReference: {fileID: 841606454}
+    - target: {fileID: 4990707178216407840, guid: 608ec879fbe99ec4fb8c6e5bc9e0ccb1, type: 3}
+      propertyPath: 'choiceButtons.Array.data[9]'
+      value: 
+      objectReference: {fileID: 1694035809}
+    - target: {fileID: 4990707178216407840, guid: 608ec879fbe99ec4fb8c6e5bc9e0ccb1, type: 3}
+      propertyPath: 'choiceButtons.Array.data[10]'
+      value: 
+      objectReference: {fileID: 1018678658}
     - target: {fileID: 5141835446322737232, guid: 608ec879fbe99ec4fb8c6e5bc9e0ccb1, type: 3}
       propertyPath: m_SizeDelta.x
       value: 1190.1
@@ -1996,6 +2061,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 3476117054221197051, guid: 608ec879fbe99ec4fb8c6e5bc9e0ccb1, type: 3}
   m_PrefabInstance: {fileID: 1478477637}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1694035809 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5903578184384080183, guid: 7c65c207b37ffbb408736fe5a9a72462, type: 3}
+  m_PrefabInstance: {fileID: 1374150552}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f6182d8b25c79345bab5c4cd90a61bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueChoiceButton
+--- !u!114 &1747969987 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5903578184384080183, guid: 7c65c207b37ffbb408736fe5a9a72462, type: 3}
+  m_PrefabInstance: {fileID: 103176508}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f6182d8b25c79345bab5c4cd90a61bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueChoiceButton
 --- !u!1001 &1767005567
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2110,6 +2197,28 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8730864935321537802, guid: 7c65c207b37ffbb408736fe5a9a72462, type: 3}
   m_PrefabInstance: {fileID: 1767005567}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1767005569 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5903578184384080183, guid: 7c65c207b37ffbb408736fe5a9a72462, type: 3}
+  m_PrefabInstance: {fileID: 1767005567}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f6182d8b25c79345bab5c4cd90a61bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueChoiceButton
+--- !u!114 &1885785823 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5903578184384080183, guid: 7c65c207b37ffbb408736fe5a9a72462, type: 3}
+  m_PrefabInstance: {fileID: 347018532}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f6182d8b25c79345bab5c4cd90a61bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueChoiceButton
 --- !u!1 &2003583030
 GameObject:
   m_ObjectHideFlags: 0
