@@ -1,3 +1,6 @@
+INCLUDE ../../Items.ink
+INCLUDE ../ChooseItemN2.ink
+
 === MN2 === ///upon starting night 2, this is the knot that should play
 
 Oh, hello.
@@ -300,7 +303,7 @@ We’ll um, see you <b>tomorrow</b> night?
 ...great. See you then.
 
 
--> END //this should trigger end of game
+-> ChooseItemN2 //after leaving, the Reaper picks an item (ChooseItemN2.ink), then the night ends
 
 //hasSeenStains
 //hasSeenTissues

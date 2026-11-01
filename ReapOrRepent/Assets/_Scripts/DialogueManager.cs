@@ -19,6 +19,14 @@ public class DialogueManager : MonoBehaviour
     private void Awake()
     {
         story = new Story(inkJson.text);
+        BindItemFunctions();
+    }
+
+    // Gives and checks items after a choice.
+    private void BindItemFunctions()
+    {
+        story.BindExternalFunction("GiveItem", (string itemId) => Inventory.Add(itemId));
+        story.BindExternalFunction("HasItem", (string itemId) => Inventory.Has(itemId), true);
     }
 
     private void OnEnable()

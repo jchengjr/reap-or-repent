@@ -52,6 +52,8 @@ public class MainMenu : MonoBehaviour
 
     private void StartGame()
     {
+        // Clear the inventory when a new game starts.
+        Inventory.Clear();
         SceneManager.LoadScene(gameSceneName);
     }
 }
